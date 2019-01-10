@@ -14,8 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     private var flyingCar: SKSpriteNode!
-    var groundBit: UInt32 = 1
-    var carBit: UInt32 = 0
+    var groundCollisionBit: UInt32 = 1
+    var carCollisionBit: UInt32 = 0
     
     override func didMove(to view: SKView) {
         
@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ground.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: ImageName.Ground), size: ground.size)
         ground.physicsBody?.categoryBitMask = PhysicsCategory.Ground
         ground.physicsBody?.collisionBitMask = 1
-        groundBit = ground.physicsBody!.collisionBitMask
+        groundCollisionBit = ground.physicsBody!.collisionBitMask
         ground.physicsBody?.density = 0.5
         ground.physicsBody?.isDynamic = false
         addChild(ground)
@@ -65,7 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         flyingCar.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: ImageName.FlyingCarSit), size: flyingCar.size)
         flyingCar.physicsBody?.categoryBitMask = PhysicsCategory.FlyingCar
         flyingCar.physicsBody?.collisionBitMask = 0
-        carBit = flyingCar.physicsBody!.collisionBitMask
+        carCollisionBit = flyingCar.physicsBody!.collisionBitMask
         flyingCar.physicsBody?.contactTestBitMask = PhysicsCategory.Ground
         flyingCar.physicsBody?.isDynamic = true
         
@@ -132,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print(contact.bodyB.collisionBitMask == carBit)
+        print(contact.bodyB.collisionBitMask == carCollisionBit)
     }
     
     override func update(_ currentTime: TimeInterval) {
